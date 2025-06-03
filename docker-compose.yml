@@ -1,0 +1,134 @@
+version: '3.8'
+
+networks:
+  servarrnetwork:
+    name: servarrnetwork
+    ipam:
+      config:
+        - subnet: 172.69.0.0/24
+
+services:
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    restart: unless-stopped
+    labels:
+      - deunhealth.restart.on.unhealthy=true
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Africa/Kampala
+      - WEBUI_PORT=8888
+      - TORRENTING_PORT=6881
+    volumes:
+      - /volume2/docker/mediaserver/qbittorrent:/config
+      - /volume2/docker/mediaserver/qbittorrent/completed:/downloads/completed
+      - /volume2/docker/mediaserver/qbittorrent/completed:/downloads/incomplete
+      - /volume2/docker/mediaserver/qbittorrent/completed:/downloads/torrents
+      - "/volume2/PLEX/tv shows:/plex_tv"
+      
+    ports:
+      - 8888:8888
+      - 6881:6881
+    networks:
+      - servarrnetwork
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Africa/Kampala
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./sonarr:/config
+      - /data:/data
+      - /volume2/docker/mediaserver/downloads:/downloads
+      - /volume2/docker/mediaserver/qbittorrent/completed:/completed
+      - /volume2/docker/mediaserver/qbittorrent/completed:/downloads/completed
+    ports:
+      - 8989:8989
+    networks:
+      - servarrnetwork
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Africa/Kampala
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./radarr:/config
+      - /data:/data
+      - /volume2/docker/mediaserver/radarr:/config
+      - /volume2/docker/mediaserver/downloads:/downloads
+      - /volume2/docker/mediaserver/qbittorrent/completed:/completed
+      - /volume2/docker/mediaserver/qbittorrent/completed:/downloads/completed
+    ports:
+      - 7878:7878
+    networks:
+      - servarrnetwork
+
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:latest
+    container_name: lidarr
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Africa/Kampala
+    volumes:
+      - /volume2/docker/mediaserver/lidarr:/config
+      - /volume2/docker/mediaserver/downloads:/downloads
+    ports:
+      - 8686:8686
+    networks:
+      - servarrnetwork
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Africa/Kampala
+    volumes:
+      - /volume2/docker/mediaserver/bazarr:/config
+      - /volume2/docker/mediaserver/downloads:/downloads
+    ports:
+      - 6767:6767
+    networks:
+      - servarrnetwork
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Africa/Kampala
+    volumes:
+      - /volume2/docker/mediaserver/prowlarr:/config
+    ports:
+      - 9696:9696
+    networks:
+      - servarrnetwork
+
+  deunhealth:
+    image: qmcgaw/deunhealth
+    container_name: deunhealth
+    network_mode: "none"
+    environment:
+      - LOG_LEVEL=info
+      - HEALTH_SERVER_ADDRESS=127.0.0.1:9999
+      - TZ=Africa/Kampala
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
