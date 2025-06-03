@@ -22,20 +22,7 @@ Before running the stack, create a directory structure on your server that match
 
 **Example (customizable):**
 
-/path/to/your/media-server/
-├── qbittorrent/
-│   ├── config/
-│   └── completed/
-├── sonarr/
-├── radarr/
-├── lidarr/
-├── bazarr/
-├── prowlarr/
-├── downloads/
-└── media/
-    ├── tv shows/
-    └── music/
-
+![image](https://github.com/user-attachments/assets/943f510d-e652-4bff-923e-6793261836f1)
 
 ````
 
