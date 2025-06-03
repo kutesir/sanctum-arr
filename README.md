@@ -180,9 +180,5 @@ This configuration is for personal use only. It assumes all content accessed is 
 
 ```
 
----
-
-Let me know if you want me to output this as a downloadable file, or generate an updated `docker-compose.yml` matching this structure.
-```
 # sanctum-arr
 Optimised and Decoupled
