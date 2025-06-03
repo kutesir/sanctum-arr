@@ -1,4 +1,4 @@
-# 📺 Self-Hosted Media Server Stack
+# 📺 The Forge. A Self-Hosted Media Server Stack
 
 A fully containerized media automation stack using Docker Compose, optimized for home servers or NAS environments.
 
