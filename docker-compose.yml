@@ -15,21 +15,20 @@ services:
     labels:
       - deunhealth.restart.on.unhealthy=true
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Africa/Kampala
-      - WEBUI_PORT=8888
-      - TORRENTING_PORT=6881
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - WEBUI_PORT=${WEBUI_PORT}
+      - TORRENTING_PORT=${TORRENTING_PORT}
     volumes:
-      - /volume2/docker/mediaserver/qbittorrent:/config
-      - /volume2/docker/mediaserver/qbittorrent/completed:/downloads/completed
-      - /volume2/docker/mediaserver/qbittorrent/completed:/downloads/incomplete
-      - /volume2/docker/mediaserver/qbittorrent/completed:/downloads/torrents
-      - "/volume2/PLEX/tv shows:/plex_tv"
-      
+      - /path/to/your/media-server/qbittorrent:/config
+      - /path/to/your/media-server/qbittorrent/completed:/downloads/completed
+      - /path/to/your/media-server/qbittorrent/completed:/downloads/incomplete
+      - /path/to/your/media-server/qbittorrent/completed:/downloads/torrents
+      - /path/to/your/media-server/media/tv shows:/plex_tv
     ports:
-      - 8888:8888
-      - 6881:6881
+      - "${WEBUI_PORT}:8888"
+      - "${TORRENTING_PORT}:6881"
     networks:
       - servarrnetwork
 
@@ -38,16 +37,15 @@ services:
     container_name: sonarr
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Africa/Kampala
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./sonarr:/config
-      - /data:/data
-      - /volume2/docker/mediaserver/downloads:/downloads
-      - /volume2/docker/mediaserver/qbittorrent/completed:/completed
-      - /volume2/docker/mediaserver/qbittorrent/completed:/downloads/completed
+      - /path/to/your/media-server/sonarr:/config
+      - /path/to/your/media-server/downloads:/downloads
+      - /path/to/your/media-server/qbittorrent/completed:/completed
+      - /path/to/your/media-server/qbittorrent/completed:/downloads/completed
     ports:
       - 8989:8989
     networks:
@@ -58,17 +56,15 @@ services:
     container_name: radarr
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Africa/Kampala
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./radarr:/config
-      - /data:/data
-      - /volume2/docker/mediaserver/radarr:/config
-      - /volume2/docker/mediaserver/downloads:/downloads
-      - /volume2/docker/mediaserver/qbittorrent/completed:/completed
-      - /volume2/docker/mediaserver/qbittorrent/completed:/downloads/completed
+      - /path/to/your/media-server/radarr:/config
+      - /path/to/your/media-server/downloads:/downloads
+      - /path/to/your/media-server/qbittorrent/completed:/completed
+      - /path/to/your/media-server/qbittorrent/completed:/downloads/completed
     ports:
       - 7878:7878
     networks:
@@ -79,12 +75,13 @@ services:
     container_name: lidarr
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Africa/Kampala
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
     volumes:
-      - /volume2/docker/mediaserver/lidarr:/config
-      - /volume2/docker/mediaserver/downloads:/downloads
+      - /path/to/your/media-server/lidarr:/config
+      - /path/to/your/media-server/downloads:/downloads
+      - /path/to/your/media-server/media/music:/music
     ports:
       - 8686:8686
     networks:
@@ -95,12 +92,12 @@ services:
     container_name: bazarr
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Africa/Kampala
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
     volumes:
-      - /volume2/docker/mediaserver/bazarr:/config
-      - /volume2/docker/mediaserver/downloads:/downloads
+      - /path/to/your/media-server/bazarr:/config
+      - /path/to/your/media-server/downloads:/downloads
     ports:
       - 6767:6767
     networks:
@@ -111,11 +108,11 @@ services:
     container_name: prowlarr
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Africa/Kampala
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
     volumes:
-      - /volume2/docker/mediaserver/prowlarr:/config
+      - /path/to/your/media-server/prowlarr:/config
     ports:
       - 9696:9696
     networks:
@@ -128,7 +125,7 @@ services:
     environment:
       - LOG_LEVEL=info
       - HEALTH_SERVER_ADDRESS=127.0.0.1:9999
-      - TZ=Africa/Kampala
+      - TZ=${TZ}
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
