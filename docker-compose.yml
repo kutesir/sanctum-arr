@@ -21,11 +21,11 @@ services:
       - WEBUI_PORT=8888
       - TORRENTING_PORT=6881
     volumes:
-      - /volume2/docker/mediaserver/qbittorrent:/config
-      - /volume2/docker/mediaserver/qbittorrent/completed:/downloads/completed
-      - /volume2/docker/mediaserver/qbittorrent/completed:/downloads/incomplete
-      - /volume2/docker/mediaserver/qbittorrent/completed:/downloads/torrents
-      - "/volume2/PLEX/tv shows:/plex_tv"
+      - /path/to/your/folder/qbittorrent/config:/config
+      - /path/to/your/folder/qbittorrent/completed:/downloads/completed
+      - /path/to/your/folder/qbittorrent/completed:/downloads/incomplete
+      - /path/to/your/folder/qbittorrent/completed:/downloads/torrents
+      - /path/to/your/folder/plex/tv_shows:/plex_tv
     ports:
       - 8888:8888
       - 6881:6881
@@ -43,11 +43,11 @@ services:
       - TZ=Africa/Kampala
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./sonarr:/config
-      - /data:/data
-      - /volume2/docker/mediaserver/downloads:/downloads
-      - /volume2/docker/mediaserver/qbittorrent/completed:/completed
-      - /volume2/docker/mediaserver/qbittorrent/completed:/downloads/completed
+      - /path/to/your/folder/sonarr:/config
+      - /path/to/your/folder/data:/data
+      - /path/to/your/folder/downloads:/downloads
+      - /path/to/your/folder/qbittorrent/completed:/completed
+      - /path/to/your/folder/qbittorrent/completed:/downloads/completed
     ports:
       - 8989:8989
     networks:
@@ -64,12 +64,11 @@ services:
       - TZ=Africa/Kampala
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./radarr:/config
-      - /data:/data
-      - /volume2/docker/mediaserver/radarr:/config
-      - /volume2/docker/mediaserver/downloads:/downloads
-      - /volume2/docker/mediaserver/qbittorrent/completed:/completed
-      - /volume2/docker/mediaserver/qbittorrent/completed:/downloads/completed
+      - /path/to/your/folder/radarr:/config
+      - /path/to/your/folder/data:/data
+      - /path/to/your/folder/downloads:/downloads
+      - /path/to/your/folder/qbittorrent/completed:/completed
+      - /path/to/your/folder/qbittorrent/completed:/downloads/completed
     ports:
       - 7878:7878
     networks:
@@ -85,8 +84,8 @@ services:
       - PGID=1000
       - TZ=Africa/Kampala
     volumes:
-      - /volume2/docker/mediaserver/lidarr:/config
-      - /volume2/docker/mediaserver/downloads:/downloads
+      - /path/to/your/folder/lidarr:/config
+      - /path/to/your/folder/downloads:/downloads
     ports:
       - 8686:8686
     networks:
@@ -102,8 +101,8 @@ services:
       - PGID=1000
       - TZ=Africa/Kampala
     volumes:
-      - /volume2/docker/mediaserver/bazarr:/config
-      - /volume2/docker/mediaserver/downloads:/downloads
+      - /path/to/your/folder/bazarr:/config
+      - /path/to/your/folder/downloads:/downloads
     ports:
       - 6767:6767
     networks:
@@ -119,7 +118,7 @@ services:
       - PGID=1000
       - TZ=Africa/Kampala
     volumes:
-      - /volume2/docker/mediaserver/prowlarr:/config
+      - /path/to/your/folder/prowlarr:/config
     ports:
       - 9696:9696
     networks:
